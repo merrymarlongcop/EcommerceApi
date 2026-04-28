@@ -1,36 +1,32 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '4.0.6'
-	id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
 }
 
 group = 'com.ws101.delarosa_longcop'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(25)
-	}
+    // Binabago natin ito mula 21 patungong 11 para tugma sa inyong sistema
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
-     compileOnly 'org.projectlombok:lombok'
-     annotationProcessor 'org.projectlombok:lombok'
-     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
-     testCompileOnly 'org.projectlombok:lombok'
-     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-     testAnnotationProcessor 'org.projectlombok:lombok'
-     
-     // Added as required
-     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-     runtimeOnly 'com.mysql:mysql-connector-j'
- }
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
