@@ -5,7 +5,7 @@ import com.ws101.delarosa_longcop.exception.ResourceNotFoundException;
 import com.ws101.delarosa_longcop.model.Product;
 import com.ws101.delarosa_longcop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;p
 
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class ProductService {
      * 
      * @param productRepository the repository instance to be used
      */
-    @Autowired
+    
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
