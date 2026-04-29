@@ -1,8 +1,14 @@
 package com.ws101.delarosa_longcop.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 import jakarta.persistence.*;
+
+
 import jakarta.validation.constraints.*;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

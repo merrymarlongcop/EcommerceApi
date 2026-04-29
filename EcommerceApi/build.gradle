@@ -8,7 +8,7 @@ group = 'com.ws101.delarosa_longcop'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    // Binabago natin ito mula 21 patungong 11 para tugma sa inyong sistema
+    
     sourceCompatibility = '11'
     targetCompatibility = '11'
 }
