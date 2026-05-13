@@ -11,8 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
 
-@EnableMethodSecurity
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
@@ -28,18 +28,22 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
+
+                        // PUBLIC ENDPOINTS
                         .requestMatchers(
-                                "/api/v1/products/**",
-                                "/api/v1/auth/**"
+                                "/login",
+                                "/api/auth/**",
+                                "/api/products/**"
                         ).permitAll()
 
+                        // EVERYTHING ELSE NEEDS LOGIN
                         .anyRequest().authenticated()
                 )
 
                 .formLogin(form -> form
-        .loginPage("/login")
-        .permitAll()
-)
+                        .loginPage("/login")
+                        .permitAll()
+                )
 
                 .logout(logout -> logout
                         .logoutUrl("/logout")
