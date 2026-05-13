@@ -1,14 +1,20 @@
 package com.ws101.delarosa_longcop.exception;
 
 import org.springframework.dao.DataIntegrityViolationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import org.springframework.web.context.request.WebRequest;
+
 import java.time.LocalDateTime;
 
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Global exception handler to catch and handle errors across the whole application.
@@ -32,11 +38,12 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getDescription(false)
         );
+
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     /**
-     * Handles DataIntegrityViolationException (used for invalid or conflicting data)
+     * Handles DataIntegrityViolationException
      * Returns HTTP 400 Bad Request status
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -47,10 +54,34 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 "Bad Request",
-                "Invalid or conflicting data provided: " + ex.getMostSpecificCause().getMessage(),
+                "Invalid or conflicting data provided: "
+                        + ex.getMostSpecificCause().getMessage(),
                 request.getDescription(false)
         );
+
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Handles validation errors from @Valid
+     * Returns HTTP 400 Bad Request status
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationErrors(
+            MethodArgumentNotValidException ex) {
+
+        Map<String, Object> response = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
+
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage())
+        );
+
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", 400);
+        response.put("errors", errors);
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -68,6 +99,7 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getDescription(false)
         );
+
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
