@@ -5,7 +5,7 @@ import com.ws101.delarosa_longcop.exception.ResourceNotFoundException;
 import com.ws101.delarosa_longcop.model.Product;
 import com.ws101.delarosa_longcop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;p
+import org.springframework.stereotype.Service;
 
 
 import java.util.List;
