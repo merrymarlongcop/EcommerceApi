@@ -1,5 +1,6 @@
 package com.ws101.delarosa_longcop.controller;
 
+import com.ws101.delarosa_longcop.dto.CreateProductDto;
 import com.ws101.delarosa_longcop.model.Product;
 import com.ws101.delarosa_longcop.service.ProductService;
 
@@ -40,8 +41,20 @@ public class ProductController {
     // LOGGED IN USERS ONLY
     @PreAuthorize("isAuthenticated()")
     @PostMapping
-    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
+    public ResponseEntity<Product> createProduct(
+            @Valid @RequestBody CreateProductDto productDto) {
+
+        Product product = new Product();
+
+        product.setProductName(productDto.getProductName());
+        product.setDescription(productDto.getDescription());
+        product.setPrice(productDto.getPrice());
+        product.setCategory(productDto.getCategory());
+        product.setStockQuantity(productDto.getStockQuantity());
+        product.setImageUrl(productDto.getImageUrl());
+
         Product createdProduct = productService.createProduct(product);
+
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
