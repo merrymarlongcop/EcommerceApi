@@ -40,8 +40,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
+                // DEFAULT SPRING SECURITY LOGIN
                 .formLogin(form -> form
-                        .loginPage("/login")
                         .permitAll()
                 )
 
