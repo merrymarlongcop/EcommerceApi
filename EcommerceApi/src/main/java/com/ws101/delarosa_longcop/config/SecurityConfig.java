@@ -21,35 +21,28 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
-            throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable())
+            .csrf(csrf -> csrf.disable())
 
-                .authorizeHttpRequests(auth -> auth
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                    "/login",
+                    "/api/v1/auth/**",
+                    "/api/products/**"
+                ).permitAll()
 
-                        // PUBLIC ENDPOINTS
-                        .requestMatchers(
-                                "/login",
-                                "/api/auth/**",
-                                "/api/products/**"
-                        ).permitAll()
+                .anyRequest().authenticated()
+            )
 
-                        // EVERYTHING ELSE NEEDS LOGIN
-                        .anyRequest().authenticated()
-                )
+            .formLogin(form -> form
+                .permitAll()
+            )
 
-                // DEFAULT SPRING SECURITY LOGIN
-                .formLogin(form -> form
-                        .permitAll()
-                )
-
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                );
+            .logout(logout -> logout
+                .permitAll()
+            );
 
         return http.build();
     }
